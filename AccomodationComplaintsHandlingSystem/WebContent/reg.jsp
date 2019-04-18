@@ -44,5 +44,7 @@
 		}
 	
 	%>
+	<a href="login.html">Login</a><br/><br/>
+	<a href="home.html">Home</a>
 </body>
 </html>

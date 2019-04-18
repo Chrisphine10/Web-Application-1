@@ -6,35 +6,36 @@
 </head>
 <body>
 <h1>Register Here</h1>
-<form method="post" action="reg.jsp">
+<form method="post" action="reg.jsp" name="english_registration_form" id="english_registration_form">
 		<table>
 			<tr>
 				<td>First Name</td>
-				<td><input type="text" name="fname"></td>
+				<td><input type="text" id="fname" name="fname" aria-describedby="name-format" required placeholder="First Name"></td>
 			</tr>
 			<tr>
 				<td>Last Name</td>
-				<td><input type="text" name="lname"></td>
+				<td><input type="text" id="lname" name="lname" aria-describedby="name-format" required placeholder="Last Name"></td>
 			</tr>
 			<tr>
 				<td>User Name</td>
-				<td><input type="text" name="uname"></td>
-			</tr>
-			<tr>
-				<td>Password</td>
-			 	<td><input type="password" name="pwd"></td>
-			</tr>
-			<tr>
-				<td>Retype Password</td>
-			 	<td><input type="password" name="rpwd"></td>
+				<td><input type="text" id="uname" name="uname" aria-describedby="name-format" required placeholder="User Name"></td>
 			</tr>
 			<tr>
 				<td>Email</td>
-				<td><input type="text" name="email"></td>
+				<td><input type="email" id="email" name="email" required placeholder="Email"></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+			 	<td><input type="password" id="pwd" name="pwd" required placeholder="Password" onkeyup='check();'></td>
+			</tr>
+			<tr>
+				<td>Confirm Password</td>
+			 	<td><input type="password" id="rpwd" name="cpwd" required placeholder="Confirm Password" onkeyup='check();'> <span id='message'></span></td>
+			 	
 			</tr>
 			<tr>
 				<td></td>
-				<td><input type="submit" value="Register"></td>
+				<td><button class="register_button" type="submit" value="submit">Register Now</button></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -42,5 +43,60 @@
 			</tr>
 		</table>
 	</form>
+	<script>
+	function validateForm() {
+		  var valid = true; // creates a boolean variable to return if the form's valid
+		  
+		  if (!validateField(this, 'fname')) // validates the fname
+		    valid = false;
+		  
+		  if (!validateField(this, 'lname')) // validates the lname
+			    valid = false;
+		  
+		  if (!validateField(this, 'uname')) // validates the uname
+			    valid = false;
+		  
+		  if (!validateField(this, 'email')) // validates the email (look that we're not using else if)
+		    valid = false;
+		  
+		  
+		  return valid; // if all the fields are valid, this variable will be true
+		}
+
+		function validateField(context, fieldName) { // function to dynamically validates a field by its name
+		  var field = document.forms['english_registration_form'][fieldName], // gets the field
+		      msg = 'Please enter your ' + fieldName, // dynamic message
+		      errorField = document.getElementById(fieldName + '_error'); // gets the error field
+		console.log(context);
+		  // if the context is the form, it's because the Register Now button was clicked, if not, check the caller
+		  if (context instanceof HTMLFormElement || context.id === fieldName)
+		    errorField.innerHTML = (field.value === '') ? msg : '';
+
+		  return field.value !== ''; // return if the field is fulfilled
+		}
+
+
+		document.addEventListener('DOMContentLoaded', function() { // when the DOM is ready
+		  // add event handlers when changing the fields' value
+		  document.getElementById('fname').addEventListener('input', validateForm);
+		  document.getElementById('lname').addEventListener('input', validateForm);
+		  document.getElementById('uname').addEventListener('input', validateForm);
+		  document.getElementById('email').addEventListener('input', validateForm);
+		  		  
+		  // add the event handler for the submit event
+		  document.getElementById('english_registration_form').addEventListener('submit', validateForm);
+		});
+		
+		var check = function() {
+			  if (document.getElementById('pwd').value ==
+			    document.getElementById('rpwd').value) {
+			    document.getElementById('message').style.color = 'green';
+			    document.getElementById('message').innerHTML = 'matching';
+			  } else {
+			    document.getElementById('message').style.color = 'red';
+			    document.getElementById('message').innerHTML = 'not matching';
+			  }
+			}
+	</script>
 </body>
 </html>
